@@ -170,20 +170,27 @@
             return p;
         }
 
+        /**
+         * Generates the url from the form
+         */
+        var generateUrl = function() {
+            var data = domToArray();
+            var url = arrayToUrl(data);
+            $("[name=link]").val(url);
+            $("img").attr("src", url);
+        }
+
         //array to dom
         $(function () {
 //            arrayToDom();
             $(document).on("change", "input,select", function() {
-                var data = domToArray();
-                var url = arrayToUrl(data);
-                $("[name=link]").val(url);
-                $("[name=linkundecoded]").val(decodeURI(url));
-                $("img").attr("src", url);
+                generateUrl();
             });
 
             $("#load").click(function(){
                 var model = urlToArray($("[name=link]").val());
                 arrayToDom(model);
+                generateUrl();
             });
 
             $("#add-new-marker").click(function() {
@@ -193,6 +200,7 @@
 
             $(document).on("click", ".marker .btn-remove-marker", function(e) {
                 $(e.target).closest('.marker').remove();
+                generateUrl();
             });
         });
 
